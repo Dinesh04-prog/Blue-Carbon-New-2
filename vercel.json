@@ -7,7 +7,11 @@
   "regions": ["bom1", "sin1", "hnd1"],
   "env": {
     "NODE_VERSION": "18"
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
-
-
