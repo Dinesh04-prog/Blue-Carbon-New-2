@@ -6,8 +6,10 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Mail, Phone, MapPin, MessageSquare, Clock, Users } from 'lucide-react';
+import { useTranslation } from '../contexts/TranslationContext';
 
 export function Contact() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,21 +46,21 @@ export function Contact() {
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email Support',
+      title: t('contact.emailSupport'),
       details: 'support@bluemitra.com',
-      description: 'General inquiries and customer support'
+      description: t('contact.generalInquiries')
     },
     {
       icon: Phone,
-      title: 'Phone Support',
+      title: t('contact.phoneSupport'),
       details: '+1 (555) 123-MITRA',
-      description: 'Monday - Friday, 9 AM - 6 PM EST'
+      description: t('contact.operatingHours')
     },
     {
       icon: MapPin,
-      title: 'Global Headquarters',
-      details: 'BlueMitra Sustainability Center',
-      description: '123 Ocean Drive, Blue City, CA 90210'
+      title: t('contact.globalHeadquarters'),
+      details: t('contact.address'),
+      description: 'Visit us by appointment'
     }
   ];
 
@@ -76,19 +78,19 @@ export function Contact() {
   const supportTeams = [
     {
       icon: Users,
-      title: 'Customer Success',
+      title: t('contact.customerSuccess'),
       description: 'Help with purchasing, accounts, and marketplace navigation',
       email: 'customers@bluemitra.com'
     },
     {
       icon: MessageSquare,
-      title: 'Project Developers',
+      title: t('contact.businessDevelopment'),
       description: 'Support for listing and managing blue carbon projects',
       email: 'developers@bluemitra.com'
     },
     {
       icon: Clock,
-      title: 'Technical Support',
+      title: t('contact.technicalSupport'),
       description: 'Platform issues, integrations, and technical questions',
       email: 'tech@bluemitra.com'
     }
@@ -99,10 +101,9 @@ export function Contact() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">Get in Touch with BlueMitra</h1>
+            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">{t('contact.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Have questions about blue carbon credits, need help with your purchase, or want to 
-              explore partnership opportunities? Our BlueMitra expert team is here to help.
+              {t('contact.subtitle')}
             </p>
           </div>
 
@@ -110,27 +111,27 @@ export function Contact() {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="p-8">
-                <h2 className="text-2xl mb-6 text-gray-900">Send us a Message</h2>
+                <h2 className="text-2xl mb-6 text-gray-900">{t('contact.sendMessage')}</h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="name">Full Name *</Label>
+                      <Label htmlFor="name">{t('contact.fullName')} *</Label>
                       <Input
                         id="name"
                         type="text"
-                        placeholder="Your full name"
+                        placeholder={t('contact.enterFullName')}
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         required
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email">Email Address *</Label>
+                      <Label htmlFor="email">{t('contact.emailAddress')} *</Label>
                       <Input
                         id="email"
                         type="email"
-                        placeholder="your.email@example.com"
+                        placeholder={t('contact.enterEmail')}
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         required
@@ -140,20 +141,20 @@ export function Contact() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="company">Company/Organization</Label>
+                      <Label htmlFor="company">{t('contact.companyOrganization')}</Label>
                       <Input
                         id="company"
                         type="text"
-                        placeholder="Your company name (optional)"
+                        placeholder={t('contact.enterCompany')}
                         value={formData.company}
                         onChange={(e) => handleInputChange('company', e.target.value)}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="inquiryType">Inquiry Type</Label>
+                      <Label htmlFor="inquiryType">{t('contact.inquiryType')} *</Label>
                       <Select value={formData.inquiryType} onValueChange={(value) => handleInputChange('inquiryType', value)}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select inquiry type" />
+                          <SelectValue placeholder={t('contact.selectInquiryType')} />
                         </SelectTrigger>
                         <SelectContent>
                           {inquiryTypes.map((type) => (
@@ -167,11 +168,11 @@ export function Contact() {
                   </div>
 
                   <div>
-                    <Label htmlFor="subject">Subject *</Label>
+                    <Label htmlFor="subject">{t('contact.subject')} *</Label>
                     <Input
                       id="subject"
                       type="text"
-                      placeholder="Brief description of your inquiry"
+                      placeholder={t('contact.enterSubject')}
                       value={formData.subject}
                       onChange={(e) => handleInputChange('subject', e.target.value)}
                       required
@@ -179,10 +180,10 @@ export function Contact() {
                   </div>
 
                   <div>
-                    <Label htmlFor="message">Message *</Label>
+                    <Label htmlFor="message">{t('contact.message')} *</Label>
                     <Textarea
                       id="message"
-                      placeholder="Please provide details about your inquiry, questions, or how we can help you..."
+                      placeholder={t('contact.enterMessage')}
                       rows={6}
                       value={formData.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
@@ -195,7 +196,7 @@ export function Contact() {
                     className="w-full bg-blue-600 hover:bg-blue-700"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                    {isSubmitting ? 'Sending...' : t('contact.sendMessageButton')}
                   </Button>
 
                   <p className="text-sm text-gray-600 text-center">
@@ -209,7 +210,7 @@ export function Contact() {
             <div className="space-y-6">
               {/* Contact Details */}
               <Card className="p-6">
-                <h3 className="text-xl mb-4 text-gray-900">Contact Information</h3>
+                <h3 className="text-xl mb-4 text-gray-900">{t('contact.contactInformation')}</h3>
                 <div className="space-y-4">
                   {contactInfo.map((info, index) => {
                     const Icon = info.icon;
@@ -231,7 +232,7 @@ export function Contact() {
 
               {/* Specialized Support Teams */}
               <Card className="p-6">
-                <h3 className="text-xl mb-4 text-gray-900">Specialized Support</h3>
+                <h3 className="text-xl mb-4 text-gray-900">{t('contact.specializedSupport')}</h3>
                 <div className="space-y-4">
                   {supportTeams.map((team, index) => {
                     const Icon = team.icon;

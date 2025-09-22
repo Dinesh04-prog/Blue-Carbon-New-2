@@ -2,29 +2,33 @@ import React from 'react';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { TreePine, Waves, Sprout, TrendingUp, Shield, Users } from 'lucide-react';
+import { formatINR, usdToInr } from '../utils/currency';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useTranslation } from '../contexts/TranslationContext';
 import blueMitraLogo from 'figma:asset/4278c6b56461cdf7f9081edcb230c99caa111a5f.png';
 
 export function AboutSection() {
+  const { t } = useTranslation();
+  
   const ecosystems = [
     {
-      name: 'Mangroves',
+      name: t('about.mangroves'),
       icon: TreePine,
-      description: 'Coastal forests that store 3-10x more carbon per hectare than terrestrial forests',
+      description: t('about.mangrovesDesc'),
       carbonRate: '1,000+ tonnes CO₂/hectare',
       color: 'bg-green-600'
     },
     {
-      name: 'Seagrass Meadows',
+      name: t('about.seagrass'),
       icon: Waves,
-      description: 'Underwater grasslands that sequester carbon in sediments for millennia',
+      description: t('about.seagrassDesc'),
       carbonRate: '200-400 tonnes CO₂/hectare',
       color: 'bg-blue-600'
     },
     {
-      name: 'Salt Marshes',
+      name: t('about.saltmarshes'),
       icon: Sprout,
-      description: 'Coastal wetlands that protect shorelines while storing vast amounts of carbon',
+      description: t('about.saltmarshesDesc'),
       carbonRate: '500-800 tonnes CO₂/hectare',
       color: 'bg-teal-600'
     }
@@ -33,18 +37,18 @@ export function AboutSection() {
   const benefits = [
     {
       icon: TrendingUp,
-      title: 'High Carbon Sequestration',
-      description: 'Blue carbon ecosystems can sequester up to 10x more carbon than terrestrial forests'
+      title: t('about.highCarbon'),
+      description: t('about.highCarbonDesc')
     },
     {
       icon: Shield,
-      title: 'Coastal Protection',
-      description: 'Natural barriers that protect communities from storms, flooding, and erosion'
+      title: t('about.coastalProtection'),
+      description: t('about.coastalProtectionDesc')
     },
     {
       icon: Users,
-      title: 'Community Benefits',
-      description: 'Support local livelihoods through sustainable fishing, tourism, and employment'
+      title: t('about.communityBenefits'),
+      description: t('about.communityBenefitsDesc')
     }
   ];
 
@@ -52,15 +56,12 @@ export function AboutSection() {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <Badge className="mb-4 bg-blue-100 text-blue-800">About BlueMitra</Badge>
+          <Badge className="mb-4 bg-blue-100 text-blue-800">{t('about.badge')}</Badge>
           <h2 className="text-4xl md:text-5xl mb-6 text-gray-900">
-            Leading the Blue Carbon Revolution
+            {t('about.title')}
           </h2>
           <p className="text-xl text-gray-600 leading-relaxed">
-            BlueMitra is your trusted partner in blue carbon credits, representing verified carbon sequestration 
-            from coastal and marine ecosystems. We connect project developers, validators, and buyers in a 
-            transparent marketplace that not only combats climate change but also protects biodiversity, 
-            supports communities, and defends coastlines from rising seas.
+            {t('about.description')}
           </p>
         </div>
 
@@ -90,7 +91,7 @@ export function AboutSection() {
         {/* Why Blue Carbon Matters */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h3 className="text-3xl mb-6 text-gray-900">Why BlueMitra Champions Blue Carbon</h3>
+            <h3 className="text-3xl mb-6 text-gray-900">{t('about.whyTitle')}</h3>
             <div className="space-y-6">
               {benefits.map((benefit, index) => {
                 const Icon = benefit.icon;
@@ -115,16 +116,16 @@ export function AboutSection() {
                   alt="BlueMitra Logo" 
                   className="h-8 w-8 object-contain"
                 />
-                <h4 className="text-lg text-blue-900">BlueMitra Market Impact</h4>
+                <h4 className="text-lg text-blue-900">{t('about.marketImpact')}</h4>
               </div>
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
-                  <p className="text-2xl text-blue-600">$1.8B</p>
-                  <p className="text-sm text-blue-800">Market Size (2024)</p>
+                  <p className="text-2xl text-blue-600">{formatINR(usdToInr(1_800_000_000))}</p>
+                  <p className="text-sm text-blue-800">{t('about.marketSize')}</p>
                 </div>
                 <div>
                   <p className="text-2xl text-blue-600">35%</p>
-                  <p className="text-sm text-blue-800">Annual Growth</p>
+                  <p className="text-sm text-blue-800">{t('about.annualGrowth')}</p>
                 </div>
               </div>
             </div>

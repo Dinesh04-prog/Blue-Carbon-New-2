@@ -19,6 +19,7 @@ import {
   Download,
   ExternalLink
 } from 'lucide-react';
+import { formatINR, usdToInr, formatUsdAsInr } from '../utils/currency';
 
 interface BuyerDashboardProps {
   user: any;
@@ -207,7 +208,7 @@ export function BuyerDashboard({ user }: BuyerDashboardProps) {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats.totalSpent.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{formatINR(usdToInr(stats.totalSpent))}</div>
             <p className="text-xs text-muted-foreground">
               USD spent on credits
             </p>
@@ -253,9 +254,9 @@ export function BuyerDashboard({ user }: BuyerDashboardProps) {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Prices</SelectItem>
-                    <SelectItem value="low">Under $20</SelectItem>
-                    <SelectItem value="medium">$20 - $25</SelectItem>
-                    <SelectItem value="high">Above $25</SelectItem>
+                    <SelectItem value="low">Under {formatUsdAsInr(20)}</SelectItem>
+                    <SelectItem value="medium">{formatUsdAsInr(20)} - {formatUsdAsInr(25)}</SelectItem>
+                    <SelectItem value="high">Above {formatUsdAsInr(25)}</SelectItem>
                   </SelectContent>
                 </Select>
                 <div className="text-sm text-muted-foreground flex items-center">
@@ -297,7 +298,7 @@ export function BuyerDashboard({ user }: BuyerDashboardProps) {
 
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <div className="text-2xl font-bold text-primary">${credit.price}</div>
+                        <div className="text-2xl font-bold text-primary">{formatUsdAsInr(credit.price)}</div>
                         <div className="text-sm text-muted-foreground">per tCO2e</div>
                       </div>
                       <div className="text-right">
@@ -357,7 +358,7 @@ export function BuyerDashboard({ user }: BuyerDashboardProps) {
                         <div>
                           <span className="font-medium">Purchase Price:</span>
                           <br />
-                          ${purchase.price}/tCO2e
+                          {formatUsdAsInr(purchase.price)}/tCO2e
                         </div>
                         <div className="flex items-center gap-1">
                           <Calendar className="h-4 w-4" />

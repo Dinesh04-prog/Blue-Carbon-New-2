@@ -2,35 +2,38 @@ import React from 'react';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Search, ShoppingCart, Award, BarChart3, Shield, FileCheck } from 'lucide-react';
+import { useTranslation } from '../contexts/TranslationContext';
 
 export function HowItWorks() {
+  const { t } = useTranslation();
+  
   const steps = [
     {
       step: 1,
       icon: Search,
-      title: 'Browse Projects',
-      description: 'Explore verified blue carbon projects from around the world. Filter by location, project type, and price to find credits that align with your values.',
+      title: t('howitworks.browseProjects'),
+      description: t('howitworks.browseProjectsDesc'),
       details: ['View project details', 'Check certifications', 'Read impact reports']
     },
     {
       step: 2,
       icon: ShoppingCart,
-      title: 'Purchase Credits',
-      description: 'Buy blue carbon credits with transparent pricing. Each credit represents one metric tonne of CO₂ sequestered or avoided through coastal ecosystem protection.',
+      title: t('howitworks.purchaseCredits'),
+      description: t('howitworks.purchaseCreditsDesc'),
       details: ['Secure payment processing', 'Instant digital receipts', 'Bulk purchase options']
     },
     {
       step: 3,
       icon: Award,
-      title: 'Receive Certificates',
-      description: 'Get verified digital certificates for your purchases. Each certificate includes project details, impact metrics, and blockchain-verified authenticity.',
+      title: t('howitworks.receiveCertificates'),
+      description: t('howitworks.receiveCertificatesDesc'),
       details: ['Digital certificates', 'Blockchain verification', 'Impact documentation']
     },
     {
       step: 4,
       icon: BarChart3,
-      title: 'Track Impact',
-      description: 'Monitor your environmental impact through your personal dashboard. See real-time updates on project progress and your contribution to ocean health.',
+      title: t('howitworks.trackImpact'),
+      description: t('howitworks.trackImpactDesc'),
       details: ['Personal dashboard', 'Impact tracking', 'Progress updates']
     }
   ];
@@ -38,13 +41,13 @@ export function HowItWorks() {
   const verificationProcess = [
     {
       icon: Shield,
-      title: 'Third-Party Verification',
-      description: 'All projects undergo rigorous third-party verification by internationally recognized standards like VCS, Gold Standard, and Plan Vivo.'
+      title: t('howitworks.thirdPartyVerification'),
+      description: t('howitworks.thirdPartyVerificationDesc')
     },
     {
       icon: FileCheck,
-      title: 'Continuous Monitoring',
-      description: 'Projects are continuously monitored using satellite imagery, field surveys, and community reporting to ensure ongoing impact.'
+      title: t('howitworks.continuousMonitoring'),
+      description: t('howitworks.continuousMonitoringDesc')
     }
   ];
 
@@ -53,9 +56,9 @@ export function HowItWorks() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-800">How It Works</Badge>
+            <Badge className="mb-4 bg-blue-100 text-blue-800">{t('howitworks.title')}</Badge>
             <h2 className="text-4xl md:text-5xl mb-6 text-gray-900">
-              Simple Steps to Climate Action
+              {t('howitworks.subtitle')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Purchasing blue carbon credits is straightforward and transparent. 
@@ -99,10 +102,9 @@ export function HowItWorks() {
           {/* Verification & Trust */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-3xl mb-6 text-gray-900">Verification & Trust</h3>
+              <h3 className="text-3xl mb-6 text-gray-900">{t('howitworks.verificationTitle')}</h3>
               <p className="text-lg text-gray-600 mb-8">
-                Trust is fundamental to carbon markets. Our rigorous verification process 
-                ensures every credit represents real, additional, and permanent carbon impact.
+                {t('howitworks.verificationSubtitle')}
               </p>
 
               <div className="space-y-6">

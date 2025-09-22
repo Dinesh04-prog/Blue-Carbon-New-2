@@ -8,11 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Badge } from './ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { ArrowRight, Plus, Search, X } from 'lucide-react';
+import { ArrowRight, Plus, Search, X, IndianRupee } from 'lucide-react';
+import { formatINR, usdToInr } from '../utils/currency';
+import { useTranslation } from '../contexts/TranslationContext';
 
 import { createSellerListing, getCurrentUser, listSellerListingsByUser, deleteSellerListing, SellerListing } from '../utils/api/sellListings';
 
 export default function SellCredits() {
+  const { t } = useTranslation();
   const [projectName, setProjectName] = useState('');
   const [type, setType] = useState('Mangrove Restoration');
   const [location, setLocation] = useState('');
@@ -140,91 +143,91 @@ export default function SellCredits() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold">Sell Your Carbon Credits</h1>
-          <p className="text-muted-foreground mt-1">Create listings so buyers can purchase your verified blue carbon credits.</p>
+          <h1 className="text-2xl font-bold">{t('sell.title')}</h1>
+          <p className="text-muted-foreground mt-1">{t('sell.subtitle')}</p>
         </div>
 
         <Tabs defaultValue="create">
           <TabsList>
-            <TabsTrigger value="create">Create Listing</TabsTrigger>
-            <TabsTrigger value="listings">Your Listings</TabsTrigger>
+            <TabsTrigger value="create">{t('sell.createListing')}</TabsTrigger>
+            <TabsTrigger value="listings">{t('sell.yourListings')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="create" className="mt-6">
             <Card>
               <CardHeader>
-                <CardTitle>Listing details</CardTitle>
+                <CardTitle>{t('sell.listingDetails')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="projectName">Project name *</Label>
-                      <Input id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder="e.g., Mangrove Restoration - Kerala" />
+                      <Label htmlFor="projectName">{t('sell.projectName')} *</Label>
+                      <Input id="projectName" value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder={t('sell.projectNamePlaceholder')} />
                     </div>
                     <div className="space-y-2">
-                      <Label>Project type</Label>
+                      <Label>{t('sell.projectType')}</Label>
                       <Select value={type} onValueChange={setType}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
+                          <SelectValue placeholder={t('sell.selectType')} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Mangrove Restoration">Mangrove Restoration</SelectItem>
-                          <SelectItem value="Seagrass Conservation">Seagrass Conservation</SelectItem>
-                          <SelectItem value="Salt Marsh Restoration">Salt Marsh Restoration</SelectItem>
-                          <SelectItem value="Community-Based">Community-Based</SelectItem>
-                          <SelectItem value="Conservation">Conservation</SelectItem>
+                          <SelectItem value="Mangrove Restoration">{t('sell.mangroveRestoration')}</SelectItem>
+                          <SelectItem value="Seagrass Conservation">{t('sell.seagrassConservation')}</SelectItem>
+                          <SelectItem value="Salt Marsh Restoration">{t('sell.saltMarshRestoration')}</SelectItem>
+                          <SelectItem value="Community-Based">{t('sell.communityBased')}</SelectItem>
+                          <SelectItem value="Conservation">{t('sell.conservation')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="location">Location *</Label>
-                      <Input id="location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="City, Country" />
+                      <Label htmlFor="location">{t('sell.location')} *</Label>
+                      <Input id="location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder={t('sell.locationPlaceholder')} />
                     </div>
                     <div className="space-y-2">
-                      <Label>Certification</Label>
+                      <Label>{t('sell.certification')}</Label>
                       <Select value={certification} onValueChange={setCertification}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select certification" />
+                          <SelectValue placeholder={t('sell.selectCertification')} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Verified Carbon Standard (VCS)">Verified Carbon Standard (VCS)</SelectItem>
-                          <SelectItem value="Gold Standard">Gold Standard</SelectItem>
-                          <SelectItem value="Plan Vivo">Plan Vivo</SelectItem>
-                          <SelectItem value="Climate Action Reserve">Climate Action Reserve</SelectItem>
+                          <SelectItem value="Verified Carbon Standard (VCS)">{t('sell.verifiedCarbonStandard')}</SelectItem>
+                          <SelectItem value="Gold Standard">{t('sell.goldStandard')}</SelectItem>
+                          <SelectItem value="Plan Vivo">{t('sell.planVivo')}</SelectItem>
+                          <SelectItem value="Climate Action Reserve">{t('sell.climateActionReserve')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="description">Project Description *</Label>
+                      <Label htmlFor="description">{t('sell.projectDescription')} *</Label>
                       <textarea 
                         id="description"
                         value={description} 
                         onChange={(e) => setDescription(e.target.value)} 
-                        placeholder="Describe your blue carbon project, its impact, and benefits..."
+                        placeholder={t('sell.descriptionPlaceholder')}
                         className="w-full p-3 border border-gray-300 rounded-md resize-none h-24"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="price">Price per credit (USD) *</Label>
+                        <Label htmlFor="price">{t('sell.pricePerCredit')} *</Label>
                         <Input id="price" type="number" min="0" step="0.01" value={price} onChange={(e) => setPrice(parseFloat(e.target.value) || 0)} />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="quantity">Quantity (tCO2e) *</Label>
+                        <Label htmlFor="quantity">{t('sell.quantity')} *</Label>
                         <Input id="quantity" type="number" min="1" step="1" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value) || 0)} />
                       </div>
                     </div>
 
                     <div className="space-y-2 md:col-span-2">
-                      <Label>Co-benefits (optional)</Label>
+                      <Label>{t('sell.coBenefits')}</Label>
                       <div className="flex gap-2">
                         <Input 
                           value={newBenefit} 
                           onChange={(e) => setNewBenefit(e.target.value)} 
-                          placeholder="e.g., Biodiversity Protection"
+                          placeholder={t('sell.coBenefitsPlaceholder')}
                           onKeyPress={(e) => e.key === 'Enter' && addBenefit()}
                         />
                         <Button type="button" onClick={addBenefit} variant="outline">
@@ -250,11 +253,11 @@ export default function SellCredits() {
 
                 <div className="flex justify-between items-center">
                   <div className="text-sm text-muted-foreground">
-                    Estimated total value: <span className="font-semibold">${(price * quantity).toLocaleString()}</span>
+                    {t('sell.estimatedTotalValue')}: <span className="font-semibold">{formatINR(price * quantity)}</span>
                   </div>
                   <Button onClick={handleCreate}>
                     <Plus className="h-4 w-4 mr-2" />
-                    Create listing
+                    {t('sell.createListingButton')}
                   </Button>
                 </div>
               </CardContent>
@@ -265,13 +268,13 @@ export default function SellCredits() {
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-full md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input className="pl-9" placeholder="Search your listings" value={search} onChange={(e) => setSearch(e.target.value)} />
+                <Input className="pl-9" placeholder={t('sell.searchListings')} value={search} onChange={(e) => setSearch(e.target.value)} />
               </div>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Your listings</CardTitle>
+                <CardTitle>{t('sell.yourListings')}</CardTitle>
               </CardHeader>
               <CardContent>
                 {errorText && (
@@ -280,19 +283,19 @@ export default function SellCredits() {
                   </div>
                 )}
                 {loading ? (
-                  <div className="py-10 text-center text-muted-foreground">Loading...</div>
+                  <div className="py-10 text-center text-muted-foreground">{t('sell.loading')}</div>
                 ) : (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Project</TableHead>
-                      <TableHead className="hidden md:table-cell">Type</TableHead>
-                      <TableHead className="hidden md:table-cell">Location</TableHead>
-                      <TableHead className="text-right">Price (USD)</TableHead>
-                      <TableHead className="text-right">Quantity</TableHead>
-                      <TableHead className="hidden md:table-cell">Created</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="w-12">Action</TableHead>
+                      <TableHead>{t('sell.project')}</TableHead>
+                      <TableHead className="hidden md:table-cell">{t('sell.type')}</TableHead>
+                      <TableHead className="hidden md:table-cell">{t('sell.location')}</TableHead>
+                      <TableHead className="text-right">{t('sell.price')}</TableHead>
+                      <TableHead className="text-right">{t('sell.quantity')}</TableHead>
+                      <TableHead className="hidden md:table-cell">{t('sell.created')}</TableHead>
+                      <TableHead>{t('sell.status')}</TableHead>
+                      <TableHead className="w-12">{t('sell.action')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -304,7 +307,7 @@ export default function SellCredits() {
                         </TableCell>
                         <TableCell className="hidden md:table-cell">{l.type}</TableCell>
                         <TableCell className="hidden md:table-cell">{l.location}</TableCell>
-                        <TableCell className="text-right">${l.price_per_credit.toFixed(2)}</TableCell>
+                        <TableCell className="text-right">{formatINR(usdToInr(l.price_per_credit), { maximumFractionDigits: 0 })}</TableCell>
                         <TableCell className="text-right">{l.quantity.toLocaleString()}</TableCell>
                         <TableCell className="hidden md:table-cell">{new Date(l.created_at).toLocaleDateString()}</TableCell>
                         <TableCell>
@@ -327,7 +330,7 @@ export default function SellCredits() {
                     {filtered.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={8} className="text-center text-muted-foreground">
-                          No listings found
+                          {t('sell.noListingsFound')}
                         </TableCell>
                       </TableRow>
                     )}

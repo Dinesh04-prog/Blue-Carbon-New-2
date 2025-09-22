@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { MapPin, Calendar, Users, Leaf, TrendingUp, Award, ExternalLink } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useTranslation } from '../contexts/TranslationContext';
 
 interface Project {
   id: string;
@@ -30,6 +31,7 @@ interface Project {
 }
 
 export function ProjectDirectory() {
+  const { t } = useTranslation();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const projects: Project[] = [
@@ -359,10 +361,9 @@ export function ProjectDirectory() {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">Project Directory</h1>
+            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">{t('projects.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore our portfolio of blue carbon projects. Each project is carefully vetted 
-              and monitored to ensure maximum environmental and social impact.
+              {t('projects.subtitle')}
             </p>
           </div>
 
@@ -400,17 +401,17 @@ export function ProjectDirectory() {
 
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Area</span>
+                      <span className="text-gray-600">{t('projects.area')}</span>
                       <span className="text-gray-900">{project.area}</span>
                     </div>
                     
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Carbon Storage</span>
+                      <span className="text-gray-600">{t('projects.carbonStorage')}</span>
                       <span className="text-gray-900">{project.carbonStored}</span>
                     </div>
                     
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Progress</span>
+                      <span className="text-gray-600">{t('projects.progress')}</span>
                       <div className="flex items-center">
                         <div className="w-16 bg-gray-200 rounded-full h-2 mr-2">
                           <div 
@@ -428,7 +429,7 @@ export function ProjectDirectory() {
                     variant="outline"
                     onClick={() => setSelectedProject(project)}
                   >
-                    View Details
+                    {t('projects.viewDetails')}
                   </Button>
                 </div>
               </Card>

@@ -3,39 +3,42 @@ import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { HelpCircle, Book, DollarSign, Shield, Globe } from 'lucide-react';
+import { useTranslation } from '../contexts/TranslationContext';
 
 export function FAQ() {
+  const { t } = useTranslation();
+  
   const faqCategories = [
     {
-      title: 'Understanding Blue Carbon',
+      title: t('faq.understandingBlueCarbon'),
       icon: HelpCircle,
       color: 'bg-blue-100 text-blue-800',
       questions: [
         {
-          question: 'What are blue carbon credits?',
+          question: t('faq.whatAreBlueCarbonCredits'),
           answer: 'Blue carbon credits are verified carbon offsets generated from the protection, restoration, and sustainable management of coastal and marine ecosystems like mangroves, seagrass meadows, and salt marshes. These ecosystems are among the most carbon-rich habitats on Earth, storing 3-10 times more carbon per hectare than terrestrial forests.'
         },
         {
-          question: 'How do blue carbon ecosystems sequester carbon?',
+          question: t('faq.howDoBlueCarbonEcosystems'),
           answer: 'Blue carbon ecosystems sequester carbon both above and below ground. Mangroves store carbon in their biomass and in deep, waterlogged sediments where oxygen-poor conditions prevent decomposition. Seagrasses capture carbon through photosynthesis and store it in their root systems and sediments. Salt marshes accumulate carbon in their soils through plant matter decomposition in anaerobic conditions.'
         },
         {
-          question: 'Why are blue carbon ecosystems more effective than forests?',
+          question: t('faq.whyMoreEffectiveThanForests'),
           answer: 'Blue carbon ecosystems can store carbon for millennia in waterlogged sediments where decomposition is extremely slow. They sequester carbon up to 10 times faster than terrestrial forests and store 3-5 times more carbon per unit area. Additionally, they provide multiple co-benefits including coastal protection, biodiversity habitat, and sustainable livelihoods.'
         },
         {
-          question: 'What is the difference between blue, green, and brown carbon?',
+          question: t('faq.differenceBetweenBlueGreenBrown'),
           answer: 'Blue carbon refers to carbon stored in coastal and marine ecosystems. Green carbon is stored in terrestrial vegetation and soils (forests, grasslands). Brown carbon refers to carbon stored in peatlands and wetlands. Blue carbon is unique because it can be stored for thousands of years in marine sediments and provides additional benefits like coastal protection.'
         }
       ]
     },
     {
-      title: 'Purchasing & Marketplace',
+      title: t('faq.purchasingMarketplace'),
       icon: DollarSign,
       color: 'bg-green-100 text-green-800',
       questions: [
         {
-          question: 'How do I purchase blue carbon credits?',
+          question: t('faq.howToPurchase'),
           answer: 'Simply browse our marketplace, select the projects that align with your values and budget, and complete your purchase using our secure payment system. You\'ll receive digital certificates immediately, with all transactions recorded on the blockchain for transparency and traceability.'
         },
         {
@@ -137,11 +140,10 @@ export function FAQ() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">
-              BlueMitra - Frequently Asked Questions
+              {t('faq.title')}
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to know about BlueMitra's blue carbon credits, our marketplace, 
-              and how to make a positive impact on ocean health and climate change.
+              {t('faq.subtitle')}
             </p>
           </div>
 

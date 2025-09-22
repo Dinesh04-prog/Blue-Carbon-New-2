@@ -20,6 +20,7 @@ import {
   Zap,
   Receipt
 } from 'lucide-react';
+import { formatINR, usdToInr } from '../utils/currency';
 
 interface PurchaseFlowProps {
   creditData?: {
@@ -58,6 +59,7 @@ export function PurchaseFlow({ creditData, onClose }: PurchaseFlowProps) {
   const totalPrice = quantity * credit.pricePerCredit;
   const platformFee = totalPrice * 0.025; // 2.5% platform fee
   const finalTotal = totalPrice + platformFee;
+  const totalInInr = usdToInr(finalTotal);
 
   // Dynamically load Razorpay script
   const loadRazorpayScript = (): Promise<boolean> => {
@@ -94,7 +96,7 @@ export function PurchaseFlow({ creditData, onClose }: PurchaseFlowProps) {
       return;
     }
 
-    const amountInPaise = Math.round(finalTotal * 100); // Razorpay expects amount in paise
+    const amountInPaise = Math.round(totalInInr * 100); // Razorpay expects amount in paise
     const key = (import.meta as any).env?.VITE_RAZORPAY_KEY_ID || '';
 
     if (!key) {
@@ -171,12 +173,12 @@ export function PurchaseFlow({ creditData, onClose }: PurchaseFlowProps) {
                 </div>
                 <div className="flex justify-between">
                   <span>Price per credit:</span>
-                  <span>${credit.pricePerCredit}/tCO2e</span>
+                  <span>{formatINR(usdToInr(credit.pricePerCredit))}/tCO2e</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-semibold">
                   <span>Subtotal:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>{formatINR(usdToInr(totalPrice))}</span>
                 </div>
               </div>
             </div>
@@ -251,16 +253,16 @@ export function PurchaseFlow({ creditData, onClose }: PurchaseFlowProps) {
                 </div>
                 <div className="flex justify-between">
                   <span>Credits subtotal:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>{formatINR(usdToInr(totalPrice))}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Platform fee (2.5%):</span>
-                  <span>${platformFee.toFixed(2)}</span>
+                  <span>{formatINR(usdToInr(platformFee))}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-semibold text-base">
                   <span>Total:</span>
-                  <span>${finalTotal.toFixed(2)}</span>
+                  <span>{formatINR(totalInInr)}</span>
                 </div>
               </div>
             </div>
@@ -360,7 +362,7 @@ export function PurchaseFlow({ creditData, onClose }: PurchaseFlowProps) {
                 </div>
                 <div className="flex justify-between">
                   <span>Total Paid:</span>
-                  <span className="font-semibold">${finalTotal.toFixed(2)}</span>
+                  <span className="font-semibold">{formatINR(totalInInr)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Purchase Date:</span>

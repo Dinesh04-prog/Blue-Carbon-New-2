@@ -17,9 +17,11 @@ import { CompanyRegistration } from './components/CompanyRegistration';
 import SellCredits from './components/SellCredits';
 import { Button } from './components/ui/button';
 import { Toaster } from './components/ui/sonner';
+import { TranslationProvider, useTranslation } from './contexts/TranslationContext';
 import { supabase } from './utils/supabase/client';
 
-export default function App() {
+function AppContent() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState('home');
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -93,15 +95,15 @@ export default function App() {
           <SellCredits />
         ) : (
           <div className="p-8 text-center">
-            <h2 className="mb-4">Access Restricted</h2>
-            <p className="text-muted-foreground">Please sign in to access the sell credits page.</p>
+            <h2 className="mb-4">{t('common.accessRestricted')}</h2>
+            <p className="text-muted-foreground">{t('common.pleaseSignIn')}</p>
             <Button onClick={() => setShowAuthModal(true)} className="mt-4">
-              Sign In
+              {t('nav.signIn')}
             </Button>
           </div>
         );
       case 'dashboard':
-        return user ? <DashboardSelector user={user} /> : <div className="p-8 text-center">Please sign in to view your dashboard.</div>;
+        return user ? <DashboardSelector user={user} /> : <div className="p-8 text-center">{t('common.pleaseSignInToView')}</div>;
       case 'company-registration':
         return user ? (
           <CompanyRegistration 
@@ -116,10 +118,10 @@ export default function App() {
           />
         ) : (
           <div className="p-8 text-center">
-            <h2 className="mb-4">Access Restricted</h2>
-            <p className="text-muted-foreground">Please sign in to access company registration.</p>
+            <h2 className="mb-4">{t('common.accessRestricted')}</h2>
+            <p className="text-muted-foreground">{t('common.pleaseSignInToAccess')}</p>
             <Button onClick={() => setShowAuthModal(true)} className="mt-4">
-              Sign In
+              {t('nav.signIn')}
             </Button>
           </div>
         );
@@ -184,5 +186,13 @@ export default function App() {
       
       <Toaster />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <TranslationProvider>
+      <AppContent />
+    </TranslationProvider>
   );
 }

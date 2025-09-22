@@ -1,15 +1,19 @@
 import React from 'react';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
-import { TrendingUp, Users, Globe, Leaf, Fish, TreePine, Waves, DollarSign } from 'lucide-react';
+import { TrendingUp, Users, Globe, Leaf, Fish, TreePine, Waves, IndianRupee } from 'lucide-react';
+import { formatINR, usdToInr } from '../utils/currency';
+import { useTranslation } from '../contexts/TranslationContext';
 
 export function ImpactDashboard() {
+  const { t } = useTranslation();
+  
   const impactStats = [
     {
       icon: TrendingUp,
       value: '2.5M',
-      unit: 'tonnes CO₂',
-      label: 'Total Carbon Offset',
+      unit: t('impact.tonnesCO2'),
+      label: t('impact.totalCarbonOffset'),
       change: '+12%',
       color: 'text-green-600',
       bgColor: 'bg-green-100'
@@ -18,7 +22,7 @@ export function ImpactDashboard() {
       icon: TreePine,
       value: '15,000',
       unit: 'hectares',
-      label: 'Ecosystems Protected',
+      label: t('impact.ecosystemsProtected'),
       change: '+8%',
       color: 'text-blue-600',
       bgColor: 'bg-blue-100'
@@ -27,7 +31,7 @@ export function ImpactDashboard() {
       icon: Users,
       value: '45,000',
       unit: 'people',
-      label: 'Communities Supported',
+      label: t('impact.communitiesSupported'),
       change: '+15%',
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
@@ -36,7 +40,7 @@ export function ImpactDashboard() {
       icon: Globe,
       value: '25',
       unit: 'countries',
-      label: 'Global Reach',
+      label: t('impact.globalReach'),
       change: '+3',
       color: 'text-teal-600',
       bgColor: 'bg-teal-100'
@@ -45,7 +49,7 @@ export function ImpactDashboard() {
 
   const ecosystemImpact = [
     {
-      name: 'Mangroves',
+      name: t('impact.mangroves'),
       icon: TreePine,
       area: '8,500 hectares',
       carbon: '1.2M tonnes CO₂',
@@ -54,7 +58,7 @@ export function ImpactDashboard() {
       color: 'bg-green-600'
     },
     {
-      name: 'Seagrass',
+      name: t('impact.seagrass'),
       icon: Waves,
       area: '4,200 hectares',
       carbon: '800K tonnes CO₂',
@@ -63,7 +67,7 @@ export function ImpactDashboard() {
       color: 'bg-blue-600'
     },
     {
-      name: 'Salt Marshes',
+      name: t('impact.saltMarshes'),
       icon: Leaf,
       area: '2,300 hectares',
       carbon: '500K tonnes CO₂',
@@ -74,10 +78,10 @@ export function ImpactDashboard() {
   ];
 
   const regionalData = [
-    { region: 'Asia-Pacific', projects: 45, carbon: '1.2M', percentage: 48 },
-    { region: 'Americas', projects: 32, carbon: '800K', percentage: 32 },
-    { region: 'Europe', projects: 18, carbon: '350K', percentage: 14 },
-    { region: 'Africa', projects: 12, carbon: '150K', percentage: 6 }
+    { region: t('impact.asiaPacific'), projects: 45, carbon: '1.2M', percentage: 48 },
+    { region: t('impact.americas'), projects: 32, carbon: '800K', percentage: 32 },
+    { region: t('impact.europe'), projects: 18, carbon: '350K', percentage: 14 },
+    { region: t('impact.africa'), projects: 12, carbon: '150K', percentage: 6 }
   ];
 
   const cobenefits = [
@@ -91,19 +95,19 @@ export function ImpactDashboard() {
       icon: Users,
       title: 'Sustainable Livelihoods',
       description: '12,000 jobs created',
-      value: '$25M in community income'
+      value: `${formatINR(usdToInr(25_000_000))} in community income`
     },
     {
       icon: TrendingUp,
       title: 'Coastal Protection',
       description: '500km of coastline protected',
-      value: '$100M in avoided damages'
+      value: `${formatINR(usdToInr(100_000_000))} in avoided damages`
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: 'Economic Value',
       description: 'Local economic development',
-      value: '$80M in ecosystem services'
+      value: `${formatINR(usdToInr(80_000_000))} in ecosystem services`
     }
   ];
 
@@ -114,11 +118,10 @@ export function ImpactDashboard() {
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-green-100 text-green-800">Impact Dashboard</Badge>
             <h2 className="text-4xl md:text-5xl mb-6 text-gray-900">
-              Real-Time Impact
+              {t('impact.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Track the collective environmental and social impact of our blue carbon community. 
-              Every credit purchased contributes to these measurable outcomes.
+              {t('impact.subtitle')}
             </p>
           </div>
 
@@ -151,7 +154,7 @@ export function ImpactDashboard() {
           {/* Ecosystem Breakdown */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             <Card className="p-8">
-              <h3 className="text-2xl mb-6 text-gray-900">Impact by Ecosystem</h3>
+              <h3 className="text-2xl mb-6 text-gray-900">{t('impact.impactByEcosystem')}</h3>
               
               <div className="space-y-6">
                 {ecosystemImpact.map((ecosystem, index) => {
@@ -175,15 +178,15 @@ export function ImpactDashboard() {
                       
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <p className="text-gray-500">Area</p>
+                          <p className="text-gray-500">{t('impact.area')}</p>
                           <p className="text-gray-900">{ecosystem.area}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">Carbon</p>
+                          <p className="text-gray-500">{t('impact.carbon')}</p>
                           <p className="text-gray-900">{ecosystem.carbon}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">People</p>
+                          <p className="text-gray-500">{t('impact.people')}</p>
                           <p className="text-gray-900">{ecosystem.communities}</p>
                         </div>
                       </div>
@@ -194,7 +197,7 @@ export function ImpactDashboard() {
             </Card>
 
             <Card className="p-8">
-              <h3 className="text-2xl mb-6 text-gray-900">Regional Distribution</h3>
+              <h3 className="text-2xl mb-6 text-gray-900">{t('impact.regionalDistribution')}</h3>
               
               <div className="space-y-4">
                 {regionalData.map((region, index) => (
@@ -202,8 +205,8 @@ export function ImpactDashboard() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-900">{region.region}</span>
                       <div className="text-right text-sm">
-                        <p className="text-gray-900">{region.projects} projects</p>
-                        <p className="text-gray-600">{region.carbon} tonnes CO₂</p>
+                        <p className="text-gray-900">{region.projects} {t('impact.projects')}</p>
+                        <p className="text-gray-600">{region.carbon} {t('impact.tonnesCO2')}</p>
                       </div>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">

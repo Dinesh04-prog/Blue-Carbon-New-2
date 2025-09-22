@@ -4,8 +4,10 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { MapPin, DollarSign, Award, Leaf, Search, Filter } from 'lucide-react';
+import { MapPin, Award, Leaf, Search, Filter } from 'lucide-react';
+import { formatUsdAsInr } from '../utils/currency';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { useTranslation } from '../contexts/TranslationContext';
 import { projectId, publicAnonKey } from '../utils/supabase/client';
 
 interface Project {
@@ -28,6 +30,7 @@ interface MarketplaceProps {
 }
 
 export function Marketplace({ user, onPurchaseClick }: MarketplaceProps) {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -198,10 +201,9 @@ export function Marketplace({ user, onPurchaseClick }: MarketplaceProps) {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">Blue Carbon Marketplace</h1>
+            <h1 className="text-4xl md:text-5xl mb-4 text-gray-900">{t('marketplace.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover verified blue carbon projects from around the world. Every purchase directly supports 
-              coastal ecosystem restoration and protection.
+              {t('marketplace.subtitle')}
             </p>
           </div>
 
@@ -211,7 +213,7 @@ export function Marketplace({ user, onPurchaseClick }: MarketplaceProps) {
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
-                  placeholder="Search projects..."
+                  placeholder={t('marketplace.searchProjects')}
                   className="pl-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -223,28 +225,28 @@ export function Marketplace({ user, onPurchaseClick }: MarketplaceProps) {
                   <SelectValue placeholder="Project Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  <SelectItem value="restoration">Restoration</SelectItem>
-                  <SelectItem value="conservation">Conservation</SelectItem>
+                  <SelectItem value="all">{t('marketplace.allTypes')}</SelectItem>
+                  <SelectItem value="restoration">{t('marketplace.restoration')}</SelectItem>
+                  <SelectItem value="conservation">{t('marketplace.conservation')}</SelectItem>
                   <SelectItem value="community">Community-Based</SelectItem>
                 </SelectContent>
               </Select>
 
-              <Select value={priceFilter} onValueChange={setPriceFilter}>
+                  <Select value={priceFilter} onValueChange={setPriceFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Price Range" />
+                      <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Prices</SelectItem>
-                  <SelectItem value="low">Under $18</SelectItem>
-                  <SelectItem value="medium">$18 - $20</SelectItem>
-                  <SelectItem value="high">Over $20</SelectItem>
+                      <SelectItem value="all">{t('marketplace.allPrices')}</SelectItem>
+                      <SelectItem value="low">Under {formatUsdAsInr(18)}</SelectItem>
+                      <SelectItem value="medium">{formatUsdAsInr(18)} - {formatUsdAsInr(20)}</SelectItem>
+                      <SelectItem value="high">Over {formatUsdAsInr(20)}</SelectItem>
                 </SelectContent>
               </Select>
 
               <Button variant="outline" className="flex items-center space-x-2">
                 <Filter className="h-4 w-4" />
-                <span>More Filters</span>
+                <span>{t('marketplace.moreFilters')}</span>
               </Button>
             </div>
           </Card>
@@ -299,22 +301,21 @@ export function Marketplace({ user, onPurchaseClick }: MarketplaceProps) {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <DollarSign className="h-4 w-4 text-gray-500" />
-                      <span className="text-xl text-gray-900">{project.price}</span>
-                      <span className="text-sm text-gray-500 ml-1">per credit</span>
-                    </div>
+                        <div className="flex items-center">
+                          <span className="text-xl text-gray-900">{formatUsdAsInr(project.price)}</span>
+                          <span className="text-sm text-gray-500 ml-1">{t('marketplace.pricePerCredit')}</span>
+                        </div>
                     <Button 
                       size="sm" 
                       className="bg-blue-600 hover:bg-blue-700"
                       onClick={() => handlePurchase(project.id)}
                     >
-                      Buy Credits
+                      {t('marketplace.purchaseCredits')}
                     </Button>
                   </div>
 
                   <div className="mt-3 text-xs text-gray-500">
-                    {project.credits_available.toLocaleString()} credits available
+                    {project.credits_available.toLocaleString()} {t('marketplace.creditsAvailable')}
                   </div>
                 </div>
               </Card>

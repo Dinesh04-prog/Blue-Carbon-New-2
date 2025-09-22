@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Badge } from './ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Shield, ShoppingCart, Leaf, User, Mail } from 'lucide-react';
+import { useTranslation } from '../contexts/TranslationContext';
 import blueMitraLogo from 'figma:asset/4278c6b56461cdf7f9081edcb230c99caa111a5f.png';
 import { supabase } from '../utils/supabase/client';
 
@@ -15,6 +16,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ onClose }: AuthModalProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedRole, setSelectedRole] = useState<string>('');
   const [formData, setFormData] = useState({
@@ -26,22 +28,22 @@ export function AuthModal({ onClose }: AuthModalProps) {
   const roles = [
     {
       id: 'buyer',
-      title: 'Credit Buyer',
-      description: 'Purchase blue carbon credits for offset programs',
+      title: t('auth.creditBuyer'),
+      description: t('auth.creditBuyerDesc'),
       icon: ShoppingCart,
       color: 'bg-blue-100 text-blue-800'
     },
     {
       id: 'developer',
-      title: 'Project Developer',
-      description: 'Submit and manage blue carbon projects',
+      title: t('auth.projectDeveloper'),
+      description: t('auth.projectDeveloperDesc'),
       icon: Leaf,
       color: 'bg-green-100 text-green-800'
     },
     {
       id: 'validator',
-      title: 'Validator',
-      description: 'Review and validate carbon credit projects',
+      title: t('auth.validator'),
+      description: t('auth.validatorDesc'),
       icon: Shield,
       color: 'bg-purple-100 text-purple-800'
     }
@@ -50,7 +52,7 @@ export function AuthModal({ onClose }: AuthModalProps) {
   const handleSubmit = async (e: React.FormEvent, isSignUp: boolean) => {
     e.preventDefault();
     if (!selectedRole && isSignUp) {
-      alert('Please select a role');
+      alert(t('auth.selectRole'));
       return;
     }
 
@@ -111,54 +113,54 @@ export function AuthModal({ onClose }: AuthModalProps) {
               className="h-16 w-16 object-contain"
             />
           </div>
-          <DialogTitle className="text-2xl">Welcome to BlueMitra</DialogTitle>
+          <DialogTitle className="text-2xl">{t('auth.welcome')}</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
-            Blue Carbon Credits Marketplace - Sign in or create an account to start trading verified blue carbon credits
+            {t('auth.description')}
           </DialogDescription>
           <div className="flex items-center justify-center gap-2 mt-2">
             <Badge variant="secondary" className="bg-green-100 text-green-800">
               <Shield className="h-3 w-3 mr-1" />
-              Verified Platform
+              {t('auth.verifiedPlatform')}
             </Badge>
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">
               <Leaf className="h-3 w-3 mr-1" />
-              Blockchain Secured
+              {t('auth.blockchainSecured')}
             </Badge>
           </div>
         </DialogHeader>
 
         <Tabs defaultValue="signin" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="signin">{t('auth.signIn')}</TabsTrigger>
+            <TabsTrigger value="signup">{t('auth.signUp')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin" className="space-y-4">
             <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="signin-email">Email</Label>
+                <Label htmlFor="signin-email">{t('auth.email')}</Label>
                 <Input
                   id="signin-email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('auth.enterEmail')}
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signin-password">Password</Label>
+                <Label htmlFor="signin-password">{t('auth.password')}</Label>
                 <Input
                   id="signin-password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder={t('auth.enterPassword')}
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({...prev, password: e.target.value}))}
                   required
                 />
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isLoading ? t('auth.signingIn') : t('auth.signIn')}
               </Button>
             </form>
 
@@ -167,7 +169,7 @@ export function AuthModal({ onClose }: AuthModalProps) {
                 <div className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                <span className="bg-background px-2 text-muted-foreground">{t('auth.orContinueWith')}</span>
               </div>
             </div>
 
@@ -194,33 +196,33 @@ export function AuthModal({ onClose }: AuthModalProps) {
           <TabsContent value="signup" className="space-y-4">
             <form onSubmit={(e) => handleSubmit(e, true)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="signup-name">Full Name</Label>
+                <Label htmlFor="signup-name">{t('auth.fullName')}</Label>
                 <Input
                   id="signup-name"
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder={t('auth.enterFullName')}
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({...prev, name: e.target.value}))}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signup-email">Email</Label>
+                <Label htmlFor="signup-email">{t('auth.email')}</Label>
                 <Input
                   id="signup-email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t('auth.enterEmail')}
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="signup-password">Password</Label>
+                <Label htmlFor="signup-password">{t('auth.password')}</Label>
                 <Input
                   id="signup-password"
                   type="password"
-                  placeholder="Create a password"
+                  placeholder={t('auth.createPassword')}
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({...prev, password: e.target.value}))}
                   required
@@ -228,7 +230,7 @@ export function AuthModal({ onClose }: AuthModalProps) {
               </div>
 
               <div className="space-y-3">
-                <Label>Select Your Role</Label>
+                <Label>{t('auth.selectRole')}</Label>
                 <div className="grid gap-3">
                   {roles.map((role) => {
                     const Icon = role.icon;
@@ -249,7 +251,7 @@ export function AuthModal({ onClose }: AuthModalProps) {
                               <div className="flex items-center gap-2">
                                 <span className="font-medium">{role.title}</span>
                                 {selectedRole === role.id && (
-                                  <Badge className="bg-primary text-primary-foreground text-xs">Selected</Badge>
+                                  <Badge className="bg-primary text-primary-foreground text-xs">{t('auth.selected')}</Badge>
                                 )}
                               </div>
                               <p className="text-sm text-muted-foreground mt-1">
@@ -265,7 +267,7 @@ export function AuthModal({ onClose }: AuthModalProps) {
               </div>
 
               <Button type="submit" className="w-full" disabled={isLoading || !selectedRole}>
-                {isLoading ? 'Creating account...' : 'Create Account'}
+                {isLoading ? t('auth.creatingAccount') : t('auth.createAccount')}
               </Button>
             </form>
           </TabsContent>

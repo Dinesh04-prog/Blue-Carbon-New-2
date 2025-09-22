@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { User, LogOut } from 'lucide-react';
+import { LanguageSelector } from './LanguageSelector';
+import { useTranslation } from '../contexts/TranslationContext';
 import blueMitraLogo from 'figma:asset/4278c6b56461cdf7f9081edcb230c99caa111a5f.png';
 
 interface HeaderProps {
@@ -13,19 +15,21 @@ interface HeaderProps {
 }
 
 export function Header({ activeSection, setActiveSection, user, onSignIn, onSignOut }: HeaderProps) {
+  const { t } = useTranslation();
+  
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'marketplace', label: 'Marketplace' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'sell-credits', label: 'Sell Credits' },
-    { id: 'faq', label: 'FAQ' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'home', label: t('nav.home') },
+    { id: 'marketplace', label: t('nav.marketplace') },
+    { id: 'projects', label: t('nav.projects') },
+    { id: 'sell-credits', label: t('nav.sellCredits') },
+    { id: 'faq', label: t('nav.faq') },
+    { id: 'contact', label: t('nav.contact') }
   ];
 
   // Add company registration for signed-in users
   const allNavItems = user ? [
     ...navItems,
-    { id: 'company-registration', label: 'Company Registration' }
+    { id: 'company-registration', label: t('nav.companyRegistration') }
   ] : navItems;
 
   return (
@@ -67,6 +71,7 @@ export function Header({ activeSection, setActiveSection, user, onSignIn, onSign
 
           {/* User Section */}
           <div className="flex items-center space-x-4">
+            <LanguageSelector />
             {user ? (
               <div className="flex items-center space-x-3">
                 {user.user_metadata?.user_type && (
@@ -81,7 +86,7 @@ export function Header({ activeSection, setActiveSection, user, onSignIn, onSign
                   className="hidden sm:flex items-center space-x-2"
                 >
                   <User className="h-4 w-4" />
-                  <span>Dashboard</span>
+                  <span>{t('nav.dashboard')}</span>
                 </Button>
                 <Button
                   variant="ghost"
@@ -94,7 +99,7 @@ export function Header({ activeSection, setActiveSection, user, onSignIn, onSign
               </div>
             ) : (
               <Button onClick={onSignIn} className="bg-blue-600 hover:bg-blue-700">
-                Sign In
+                {t('nav.signIn')}
               </Button>
             )}
           </div>

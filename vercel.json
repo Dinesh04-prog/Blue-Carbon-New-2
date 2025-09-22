@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "ignoreCommand": "echo skip",
+  "regions": ["bom1", "sin1", "hnd1"],
+  "env": {
+    "NODE_VERSION": "18"
+  }
+}
+
+
