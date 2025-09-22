@@ -2,7 +2,7 @@
   "version": 2,
   "framework": "vite",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "build",
   "ignoreCommand": "echo skip",
   "env": {
     "NODE_VERSION": "18"
